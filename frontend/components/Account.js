@@ -27,6 +27,7 @@ const Account = () => {
 
   console.log("isAuth", isAuthenticated)
   console.log("Chain Id", chainId)
+  console.log("User", user)
   //   authenticate().then((user) => {
   useEffect(()=>{
     if(chainId == 0x13881 || chainId == 0x3){
@@ -45,7 +46,7 @@ const Account = () => {
           <IoWallet className="mr-2" />
           <span>Connect Wallet</span>
         </button> */}
-        <Button title="Connect Wallet" className="w-64" primary={true} leftIcon={<IoWallet className="mr-2" />} onClick={openModal}/>
+        <Button title="Connect Wallet" className="w-64  max-w-[160px]" primary={true} leftIcon={<IoWallet className="mr-2" />} onClick={openModal}/>
         <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"

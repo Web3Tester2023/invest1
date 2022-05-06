@@ -1,11 +1,17 @@
+import { useEffect } from "react"
 import Head from 'next/head'
 import Image from 'next/image'
+import { useMoralis } from 'react-moralis'
 import Account from '../components/Account'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+  // const { Moralis } = useMoralis()
+  // useEffect(async ()=>{
+  //   await Moralis.enableWeb3()
+  // },[])
   return (
     <div >
       <Head>
