@@ -14,7 +14,7 @@ useEffect(() => {
         }
         setUsdPrice(data);
     })
-    setInterval(() => {
+    const interval = setInterval(() => {
     getUsdPrice(token.priceAddress).then(data => {
         if(usdPrice <= 0){
             setChange(0.00);
@@ -24,6 +24,7 @@ useEffect(() => {
         setUsdPrice(data);
     })
     },60000)
+    return () => clearInterval(interval);
 }, [])
 
   return (

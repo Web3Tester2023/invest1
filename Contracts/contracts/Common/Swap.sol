@@ -12,7 +12,7 @@ contract Swap {
     // It should be noted that for the sake of simplicity, we purposefully pass in the swap router instead of inheriting the swap router in these examples.
     // More advanced example contracts will detail how to inherit the swap router safely.
 
-    ISwapRouter public immutable swapRouter;
+    ISwapRouter public immutable swapRouter = ISwapRouter(0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45);
 
     // This example swaps DAI/WETH9 for single path swaps and DAI/USDC/WETH9 for multipath swaps.
 
@@ -22,10 +22,6 @@ contract Swap {
 
     // For this example, we will set the pool fee to 0.3%.
     uint24 public constant poolFee = 3000;
-
-    constructor() {
-        swapRouter = ISwapRouter(0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45);
-    }
 
     /// @notice swapExactInputSingle swaps a fixed amount of DAI for a maximum possible amount of WETH9
     /// using the DAI/WETH9 0.3% pool by calling `exactInputSingle` in the swap router.

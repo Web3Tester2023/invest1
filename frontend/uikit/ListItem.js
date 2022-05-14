@@ -3,9 +3,8 @@ import React from "react";
 
 const ListItem = (props) => {
   return (
-    <div className={`flex space-x-3 py-2 justify-between border-b items-center border-gray-50 ${props.className ? props.className : ''}`}>
+    <div className={`flex cursor-pointer space-x-3 max-h-14 py-2 justify-between border-b items-center border-gray-50 ${props.className ? props.className : ''}`} onClick={props.onClick}>
     <div className="flex space-x-3 items-center">
-
     {
         props.image ?
         <Image alt={props.title} objectFit="contain" width={'30px'} src={props.image} className={`rounded-full w-8 h-8 max-h-8`}/> : null
