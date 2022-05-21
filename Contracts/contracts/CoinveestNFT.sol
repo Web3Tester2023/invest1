@@ -1,46 +1,42 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721BurnableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 
-/// @custom:security-contact himanshu1203@gmail.com
-contract CoinvestNFT is Initializable, ERC721Upgradeable, ERC721URIStorageUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC721BurnableUpgradeable {
-    bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+contract CoinvestNFT is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Burnable {
+    
+    address minter;
+    constructor() ERC721("CoinvestNFT", "CNFT") {}
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    // constructor() {
-    //     _disableInitializers();
-    // }
-
-    function initialize() initializer public {
-        __ERC721_init("CoinvestNFT", "CNFT");
-        __ERC721URIStorage_init();
-        __Pausable_init();
-        __AccessControl_init();
-        __ERC721Burnable_init();
-
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(PAUSER_ROLE, msg.sender);
-        _grantRole(MINTER_ROLE, msg.sender);
+    modifier onlyMinter() {
+        require(minter == msg.sender, "Not minter");
+        _;
     }
 
-    function pause() public onlyRole(PAUSER_ROLE) {
+    function addMinter(address newMinter) public onlyOwner {
+        minter = newMinter;
+    }
+
+    function pause() public onlyOwner {
         _pause();
     }
 
-    function unpause() public onlyRole(PAUSER_ROLE) {
+    function unpause() public onlyOwner {
         _unpause();
+    }
+
+    // The following functions are overrides required by Solidity.
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+        super._burn(tokenId);
     }
 
     function safeMint(address to, uint256 tokenId, string memory uri)
         public
-        onlyRole(MINTER_ROLE)
+        onlyMinter
     {
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
@@ -54,30 +50,12 @@ contract CoinvestNFT is Initializable, ERC721Upgradeable, ERC721URIStorageUpgrad
         super._beforeTokenTransfer(from, to, tokenId);
     }
 
-    // The following functions are overrides required by Solidity.
-
-    function _burn(uint256 tokenId)
-        internal
-        override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
-    {
-        super._burn(tokenId);
-    }
-
     function tokenURI(uint256 tokenId)
         public
         view
-        override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
+        override(ERC721, ERC721URIStorage)
         returns (string memory)
     {
         return super.tokenURI(tokenId);
-    }
-
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(ERC721Upgradeable, AccessControlUpgradeable)
-        returns (bool)
-    {
-        return super.supportsInterface(interfaceId);
     }
 }

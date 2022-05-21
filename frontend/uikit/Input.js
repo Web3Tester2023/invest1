@@ -7,16 +7,24 @@ const Input = (props) => {
     //     {props.title}
     //     {props.rightIcon && props.rightIcon }
     // </input>
-    <div className="flex flex-col space-y-1 mb-2">
+    <div className="flex flex-col space-y-1 mt-2 mb-3">
       {props.label && (
         <label className="font-medium text-gray-600">{props.label}</label>
       )}
-      <input
-        {...props}
-        className={`border-gray-100 focus:ring-1 focus-visible:ring-violet-500 bg-gray-50 rounded-lg ${
-          props.className && props.className
-        }`}
-      />
+      <div className="flex border border-gray-100 rounded-lg mt-2 py-2 px-3 items-center ">
+        {props.rightIcon && (
+          <div className="mr-2">{props.rightIcon}</div>
+        )}
+        <input
+          {...props}
+          className={`w-full focus:ring-0 focus:ring-offset-0 focus:outline-none ${
+            props.className && props.className
+          }`}
+        />
+        {props.leftIcon && (
+          <div className="ml-2">{props.leftIcon}</div>
+        )}
+      </div>
     </div>
   );
 };

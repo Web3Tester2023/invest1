@@ -1,6 +1,6 @@
 require("@nomiclabs/hardhat-waffle");
-require('@openzeppelin/hardhat-upgrades');
-require('hardhat-contract-sizer');
+// require('@openzeppelin/hardhat-upgrades');
+// require('hardhat-contract-sizer');
 require("dotenv").config();
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -17,7 +17,7 @@ require("dotenv").config();
 // Go to https://hardhat.org/config/ to learn more
 
 module.exports = {
-  solidity: "0.8.4",
+  solidity: "0.8.10",
   networks: {
     local: {
       url: "http://127.0.0.1:7545",

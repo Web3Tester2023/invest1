@@ -12,7 +12,7 @@ import ProfileDropdown from "./ProfileDropdown";
 
 
 const Account = () => {
-  const { authenticate, user, isAuthenticated, account, chainId, logout } =
+  const { authenticate, user, isAuthenticated, account, chainId, logout, enableWeb3 } =
     useMoralis();
   
   let [isOpen, setIsOpen] = useState(false)
@@ -25,17 +25,15 @@ const Account = () => {
     setIsOpen(true)
   }
 
-  console.log("isAuth", isAuthenticated)
-  console.log("Chain Id", chainId)
-  console.log("User", user)
   //   authenticate().then((user) => {
-  useEffect(()=>{
+    useEffect(()=>{
     if(chainId == 0x13881 || chainId == 0x3){
       setIsNetworkModalOpen(false)
     }
     else{
       setIsNetworkModalOpen(true)
     }
+    
   },[chainId])
 //     console.log("User", user)
 //   })

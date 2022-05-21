@@ -76,6 +76,7 @@ contract Investment is OwnableUpgradeable {
         uint256 created_at,
         uint256 updated_at,
         address owner,
+        address investingAccount,
         InvestmentType investmentType,
         uint256 investmentAmount,
         uint256 total_investment,
@@ -83,6 +84,16 @@ contract Investment is OwnableUpgradeable {
     );
 
     event BasketTokenAdded (
+        uint256 id,
+        uint256 basketId,
+        address _address,
+        uint256 percentage,
+        address priceFeedAddress,
+        uint256 amount,
+        uint256 investedAmount
+    );
+
+    event BasketTokenUpdated (
         uint256 id,
         uint256 basketId,
         address _address,
@@ -110,39 +121,6 @@ contract Investment is OwnableUpgradeable {
     mapping(uint256 => Basket) baskets;
     mapping(uint256 => BasketToken[]) basketTokens;
     mapping (uint256 => BasketSIP) basketSIPs;
-    /************************** 
-    **********SWAP TOKEN*******
-    **************************/
-    //  function swap(
-    //     address _tokenIn,
-    //     address _tokenOut,
-    //     uint _amountIn,
-    //     uint _amountOutMin,
-    //     address _to
-    // ) external {
-    //     IERC20(_tokenIn).transferFrom(msg.sender, address(this), _amountIn);
-    //     IERC20(_tokenIn).approve(UNISWAP_V2_ROUTER, _amountIn);
-
-    //     address[] memory path;
-    //     if (_tokenIn == WETH || _tokenOut == WETH) {
-    //         path = new address[](2);
-    //         path[0] = _tokenIn;
-    //         path[1] = _tokenOut;
-    //     } else {
-    //         path = new address[](3);
-    //         path[0] = _tokenIn;
-    //         path[1] = WETH;
-    //         path[2] = _tokenOut;
-    //     }
-
-    //     IUniswapV2Router(UNISWAP_V2_ROUTER).swapExactTokensForTokens(
-    //         _amountIn,
-    //         _amountOutMin,
-    //         path,
-    //         _to,
-    //         block.timestamp
-    //     );
-    // }
 
     function calculateFee(uint256 amount) public view returns (uint256) {
         return (amount * fee) / 10000;
@@ -152,7 +130,7 @@ contract Investment is OwnableUpgradeable {
         basketIds.increment();
         uint currentId = basketIds.current();
         baskets[currentId] = Basket(currentId, name, metadata, investingToken, block.timestamp, block.timestamp, payable(msg.sender), payable(investingAccount), InvestmentType.LUMPSUM, 0, 0, false);
-        emit BasketCreated(currentId, name, metadata, investingToken, block.timestamp, block.timestamp, msg.sender, InvestmentType.LUMPSUM, 0, 0, false);
+        emit BasketCreated(currentId, name, metadata, investingToken, block.timestamp, block.timestamp, msg.sender, investingAccount, InvestmentType.LUMPSUM, 0, 0, false);
 
         for(uint i = 0; i < tokens.length; i++){
             basketTokenIds.increment();
@@ -196,7 +174,7 @@ contract Investment is OwnableUpgradeable {
 
             basketToken.amount += amountOut;
             basketToken.investedAmount += investingAmount; 
-            emit BasketTokenAdded(basketToken.id, basketId, basketToken._address, basketToken.percentage, basketToken.priceFeedAddress, amountOut, investingAmount);
+            emit BasketTokenUpdated(basketToken.id, basketId, basketToken._address, basketToken.percentage, basketToken.priceFeedAddress, amountOut, investingAmount);
         }
         basket.total_investment += amount;
         emit InvestmentMade(basketId, amount, block.timestamp);
@@ -219,4 +197,6 @@ contract Investment is OwnableUpgradeable {
         require((sip.approvedAmount - basket.total_investment) > sip.sipAmount, "Limit Excied");
         investInBasket(basketId, sip.sipAmount);
     }
+
+    receive() external payable {}
 }

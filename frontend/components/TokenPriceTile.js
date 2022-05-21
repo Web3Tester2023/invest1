@@ -14,17 +14,17 @@ useEffect(() => {
         }
         setUsdPrice(data);
     })
-    const interval = setInterval(() => {
-    getUsdPrice(token.priceAddress).then(data => {
-        if(usdPrice <= 0){
-            setChange(0.00);
-        }else{
-            setChange(data - usdPrice);
-        }
-        setUsdPrice(data);
-    })
-    },60000)
-    return () => clearInterval(interval);
+    // const interval = setInterval(() => {
+    // getUsdPrice(token.priceAddress).then(data => {
+    //     if(usdPrice <= 0){
+    //         setChange(0.00);
+    //     }else{
+    //         setChange(data - usdPrice);
+    //     }
+    //     setUsdPrice(data);
+    // })
+    // },60000)
+    // return () => clearInterval(interval);
 }, [])
 
   return (
@@ -39,7 +39,7 @@ useEffect(() => {
             </div>
             <div className='flex flex-col items-end'>
             <p className='text-gray-800 font-semibold'>${parseFloat(usdPrice).toFixed(2)}</p>
-            <p className={`${change >= 0 ? 'text-green-600' : 'text-red-600' } text-sm`}>{`${change >= 0 ? '+' : '-' }$${parseFloat(change).toFixed(4)}`}</p>
+            {/* <p className={`${change >= 0 ? 'text-green-600' : 'text-red-600' } text-sm`}>{`${change >= 0 ? '+' : '-' }$${parseFloat(change).toFixed(4)}`}</p> */}
             </div>
         </div>
     </Card>

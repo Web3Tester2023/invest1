@@ -7,16 +7,18 @@ const Textarea = (props) => {
     //     {props.title}
     //     {props.rightIcon && props.rightIcon }
     // </input>
-    <div className="flex flex-col space-y-1 mb-2">
+    <div className="flex flex-col space-y-1 mt-2 mb-3">
       {props.label && (
         <label className="font-medium text-gray-600">{props.label}</label>
       )}
+      <div className="flex border rounded-lg border-gray-100 mt-2 p-1 items-center ">
       <textarea
         {...props}
-        className={`border-gray-100 focus:ring-1 focus-visible:ring-violet-500 bg-gray-50 rounded-lg ${
+        className={`w-full border-none focus:ring-0 focus:ring-offset-0 p-2 focus:outline-none ${
           props.className && props.className
         }`}
       />
+      </div>
     </div>
   );
 };
