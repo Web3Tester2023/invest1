@@ -15,7 +15,7 @@ contract CoinvestToken is Initializable, ERC20Upgradeable, ERC20BurnableUpgradea
     // }
 
     function initialize() initializer public {
-        __ERC20_init("Coinvest Token", "COINVEST");
+        __ERC20_init("Coinvest", "COINVEST");
         __ERC20Burnable_init();
         __Pausable_init();
         __Ownable_init();

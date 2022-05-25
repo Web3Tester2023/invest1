@@ -192,6 +192,7 @@ export const InvestmentProvider = ({ children }) => {
       await txHash.wait();
       setIsBasketCreating(false);
       console.log(`Success - ${txHash.hash}`);
+      getBaskets();
     } catch (err) {
       setIsBasketCreating(false);
       toast.error("Something went wrong! Please try again later.", {

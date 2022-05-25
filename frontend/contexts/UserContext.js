@@ -4,6 +4,7 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import UsersABI from "../artifacts/Users.json";
+import NftAbi from "../artifacts/CoinvestNFT.json";
 import { Addresses } from "../Constants/Addresses";
 import { toast } from "react-hot-toast";
 import { createClient } from "urql";
@@ -43,6 +44,26 @@ export const UserProvider = ({ children }) => {
         console.log("Response", response);
         if (response.data) {
           setIsLoading(false);
+          try {
+            const provider = await Moralis.enableWeb3();
+            // if(provider) {
+            // const provider = new ethers.providers.Web3Provider(web3Provider);
+            const signer = provider.getSigner();
+            // const provider = getProviderOrSigner();
+            // console.log("signer", walletConnected)
+            const nftCOntract = new ethers.Contract(
+              Addresses.COINVESTNFT_ADDRESS,
+              NftAbi.abi,
+              signer
+            );
+      
+            const nftData = await usersContract.tokenURI(
+              response.data.investingAccounts[0].nftId
+            );
+            console.log("NftData", nftData);
+          } catch (err) {
+            console.log(err);
+          }
           setInvestingAccount(response.data.investingAccounts[0]);
         }else{
           setIsLoading(false);

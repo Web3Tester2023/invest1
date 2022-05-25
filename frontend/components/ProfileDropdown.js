@@ -1,6 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useState, useEffect, useContext } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Tab, Transition } from "@headlessui/react";
 import { FaTimes } from "react-icons/fa";
 import { BiChevronDown } from "react-icons/bi";
 import { getEllipsisTxt } from "../helpers/formatters";
@@ -10,15 +10,24 @@ import { IoCopy } from "react-icons/io5";
 import { cryptos } from "../Constants/cryptos";
 import toast, { Toaster } from "react-hot-toast";
 import { UserContext } from "../contexts/UserContext";
+import CreateInvestingAccount from "./App/CreateInvestingAccount";
 // import { XIcon } from "react-icons/hi";
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
 
 const ProfileDropdown = ({ user, account, logout }) => {
   const [open, setOpen] = useState(false);
   const { Moralis, chainId } = useMoralis();
   const [balances, setBalances] = useState([]);
+  const [investingAccountBalance, setInvestingAccountBalance] = useState([]);
   const Web3Api = useMoralisWeb3Api();
   const { investingAccount, createInvestingAccount, isAccountCreating } =
     useContext(UserContext);
+  let [categories] = useState({
+    Wallet:[],
+    Investing:[]
+  });
 
   useEffect(() => {
     const fetchTokenBalances = async () => {
@@ -43,6 +52,35 @@ const ProfileDropdown = ({ user, account, logout }) => {
     };
     fetchTokenBalances();
   }, []);
+
+  useEffect(() => {
+    const fetchInvestingAccountBalances = async () => {
+      if(investingAccount !== null){
+        
+        const bal = await Web3Api.account.getTokenBalances({
+          chain: chainId ? chainId : "0x13881",
+          address: investingAccount.accountAddress
+        });
+        const balance = await Web3Api.account.getNativeBalance({
+          chain: chainId ? chainId : "0x13881",
+          address: investingAccount.accountAddress
+        });
+        setInvestingAccountBalance([
+          {
+            balance: balance.balance,
+            decimals: "18",
+            logo: cryptos[chainId ? chainId : "0x13881"][0].icon,
+            name: cryptos[chainId ? chainId : "0x13881"][0].name,
+            symbol: cryptos[chainId ? chainId : "0x13881"][0].symbol,
+            thumbnail: null,
+          },
+          ...bal,
+        ]);
+        console.log("Balances", balance);
+      }
+    };
+    fetchInvestingAccountBalances();
+  }, [investingAccount]);
   function closeModal() {
     setOpen(false);
   }
@@ -135,6 +173,13 @@ const ProfileDropdown = ({ user, account, logout }) => {
                     <Dialog.Title className="text-lg font-medium text-gray-900"> Panel title </Dialog.Title>
                   </div> */}
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                    {
+                      investingAccount == null ? (
+                        <div className="flex justify-center items-center py-14 border-2 rounded-md">
+                          <CreateInvestingAccount/>
+                        </div>
+                      ) : (
+
                       <div className="w-96 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl transition-transform transform ">
                         <img
                           className="relative object-cover w-full h-full rounded-xl"
@@ -167,30 +212,53 @@ const ProfileDropdown = ({ user, account, logout }) => {
                           
                         </div>
                       </div>
-                      <div className="">
-                       
-                        {/* <div className="flex justify-center px-5 -mt-12">
-                    <img
-                      className="h-24 w-24 bg-white p-2 rounded-full   "
-                      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
-                      alt=""
-                    />
-                  </div> */}
-                        <div className="flex flex-col">
-                          {/* <div className="text-center px-14 mb-3">
-                      <h2 className="text-gray-800 text-3xl font-bold">
-                        Himanshu Purohit
-                      </h2>
-                      <div className="flex space-x-2 justify-center mt-2 items-center">
-                        <p className="text-gray-400">
-                          {getEllipsisTxt(account, 8)}
-                        </p>
-                        <IoCopy
-                          className="text-gray-400 cursor-pointer"
-                          onClick={() => copyAddress(account)}
-                        />
-                      </div>
-                    </div> */}
+                      )
+                    }
+                      <div className="mt-3">
+                      <div className="w-full max-w-md px-2 sm:px-0">
+      <Tab.Group>
+        <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+          {/* {Object.keys(categories).map((category) => ( */}
+            <Tab
+              // key={category}
+              className={({ selected }) =>
+                classNames(
+                  'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-indigo-600',
+                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-indigo-400 focus:outline-none focus:ring-2',
+                  selected
+                    ? 'bg-white shadow'
+                    : 'text-gray-800 hover:bg-white/[0.12]  hover:text-gray-800'
+                )
+              }
+            >
+              Wallet
+            </Tab>
+            <Tab
+              // key={category}
+              className={({ selected }) =>
+                classNames(
+                  'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-indigo-600',
+                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-indigo-400 focus:outline-none focus:ring-2',
+                  selected
+                    ? 'bg-white shadow'
+                    : 'text-gray-800 hover:bg-white/[0.12] hover:text-gray-800'
+                )
+              }
+            >
+              Investing Account
+            </Tab>
+          {/* ))} */}
+        </Tab.List>
+        <Tab.Panels className="mt-2">
+          {/* {Object.values(categories).map((posts, idx) => ( */}
+            <Tab.Panel
+              // key={idx}
+              className={classNames(
+                'rounded-xl bg-white p-3',
+                'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+              )}
+            >
+              <div className="flex flex-col">
                           <div className="">
                             <div className="flex items-center justify-between">
                               <p className="font-semibold text-sm">
@@ -231,6 +299,96 @@ const ProfileDropdown = ({ user, account, logout }) => {
                             title="Disconnect Wallet"
                           />
                         </div>
+            </Tab.Panel>
+            <Tab.Panel
+              // key={idx}
+              className={classNames(
+                'rounded-xl bg-white p-3',
+                'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+              )}
+            >
+              <div className="flex flex-col">
+                          <div className="">
+                            <div className="flex items-center justify-between">
+                              <p className="font-semibold text-sm">
+                                Investing Account
+                              </p>
+                            </div>
+                            {investingAccountBalance.map((balance, index) => (
+                              <ListItem
+                                image={
+                                  balance.logo
+                                    ? balance.logo
+                                    : require("../public/cryptos/empty-token.webp")
+                                }
+                                title={balance.name}
+                                subTitle={balance.symbol}
+                                key={index}
+                                className="max-h-16"
+                                left={
+                                  <div className="flex flex-col items-end">
+                                    <p className=" font-base text-sm">
+                                      {parseFloat(
+                                        Moralis?.Units?.FromWei(
+                                          balance.balance.toString(),
+                                          balance.decimals
+                                        )
+                                      ).toFixed(6)}{" "}
+                                      {balance.symbol}
+                                    </p>
+                                  </div>
+                                }
+                              />
+                            ))}
+                          </div>
+                          
+                        </div>
+            </Tab.Panel>
+          {/* ))} */}
+        </Tab.Panels>
+      </Tab.Group>
+    </div>
+                        {/* <div className="flex flex-col">
+                          <div className="">
+                            <div className="flex items-center justify-between">
+                              <p className="font-semibold text-sm">
+                                Wallet Balances
+                              </p>
+                            </div>
+                            {balances.map((balance, index) => (
+                              <ListItem
+                                image={
+                                  balance.logo
+                                    ? balance.logo
+                                    : require("../public/cryptos/empty-token.webp")
+                                }
+                                title={balance.name}
+                                subTitle={balance.symbol}
+                                key={index}
+                                className="max-h-16"
+                                left={
+                                  <div className="flex flex-col items-end">
+                                    <p className=" font-base text-sm">
+                                      {parseFloat(
+                                        Moralis?.Units?.FromWei(
+                                          balance.balance.toString(),
+                                          balance.decimals
+                                        )
+                                      ).toFixed(6)}{" "}
+                                      {balance.symbol}
+                                    </p>
+                                  </div>
+                                }
+                              />
+                            ))}
+                          </div>
+                          <Button
+                            className="flex bottom-0 py-4 w-full mt-3 justify-center text-center"
+                            onClick={logout}
+                            primary
+                            title="Disconnect Wallet"
+                          />
+                        </div> */}
                       </div>
                     </div>
                   </div>
