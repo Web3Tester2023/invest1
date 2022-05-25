@@ -56,6 +56,8 @@ const BasketCard = ({basket}) => {
                   src={token.icon}
                   alt={token.name}
                   layout="fill"
+                  width="24px"
+                  height="24px"
                   objectFit="cover"
                   className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
                 />

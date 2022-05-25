@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const ImageInput = (props) => {
@@ -10,7 +11,7 @@ const ImageInput = (props) => {
     <div className="flex space-x-2 items-center mb-2  bg-gray-50 rounded-lg p-2">
     {
         props.preview && 
-        <img src={props.previewSrc ? props.previewSrc : "https://icon-library.com/images/placeholder-image-icon/placeholder-image-icon-7.jpg"} className={` object-cover ${props.previewClassName && props.previewClassName}`}/>
+        <Image layout="fill" width="100px" height="100px" src={props.previewSrc ? props.previewSrc : "https://icon-library.com/images/placeholder-image-icon/placeholder-image-icon-7.jpg"} className={` object-cover ${props.previewClassName && props.previewClassName}`}/>
     }
     <div className="flex flex-col space-y-1">
       {props.label && (

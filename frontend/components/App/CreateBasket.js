@@ -15,6 +15,7 @@ import CryptoDropdown from "../CryptoDropdown";
 import { InvestmentContext } from "../../contexts/InvestmentContext";
 import { UserContext } from "../../contexts/UserContext";
 import CreateInvestingAccount from "./CreateInvestingAccount";
+import Image from "next/image";
 
 const CreateBasket = (props) => {
   let [isOpen, setIsOpen] = useState(false);
@@ -216,7 +217,7 @@ const CreateBasket = (props) => {
                 <div className="inline-block w-full max-w-md">
 
                 <div className="mt-2 flex flex-col text-center justify-center items-center p-8 space-y-2">
-                  <img src="https://cdn.dribbble.com/users/2469324/screenshots/6538803/comp_3.gif" className="w-28"/>
+                  <Image width="112px" height="112px" src="https://cdn.dribbble.com/users/2469324/screenshots/6538803/comp_3.gif" className="w-28"/>
                   <h1 className="text-xl font-semibold text-gray-800">Investing Account Required!</h1>
                   <p className="text-sm text-gray-700 mb-3">
                     Please create your investing account first. Click below to create investing account.

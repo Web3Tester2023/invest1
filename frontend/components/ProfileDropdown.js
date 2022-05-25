@@ -11,6 +11,7 @@ import { cryptos } from "../Constants/cryptos";
 import toast, { Toaster } from "react-hot-toast";
 import { UserContext } from "../contexts/UserContext";
 import CreateInvestingAccount from "./App/CreateInvestingAccount";
+import Image from "next/image";
 // import { XIcon } from "react-icons/hi";
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -104,8 +105,10 @@ const ProfileDropdown = ({ user, account, logout }) => {
           className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-400 bg-gray-50 border border-gray-100 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 items-center space-x-1"
           onClick={openModal}
         >
-          <img
+          <Image
             alt="profile"
+            width="24px"
+            height="24px"
             src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
             className="h-6 mx-auto object-cover rounded-full w-6"
           />
@@ -181,7 +184,10 @@ const ProfileDropdown = ({ user, account, logout }) => {
                       ) : (
 
                       <div className="w-96 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl transition-transform transform ">
-                        <img
+                        <Image
+                          layout="fill"
+                          width="100%"
+                          height="100%"
                           className="relative object-cover w-full h-full rounded-xl"
                           src="https://images.unsplash.com/photo-1614849286521-4c58b2f0ff15?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870"
                         />

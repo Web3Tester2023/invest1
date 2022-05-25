@@ -166,7 +166,7 @@ const Account = () => {
               <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
 
                 <div className="mt-2 flex flex-col text-center justify-center items-center p-8 space-y-2">
-                  <img src="https://cdn.dribbble.com/users/2469324/screenshots/6538803/comp_3.gif" className="w-28"/>
+                  <Image width="112px" height="112px" src="https://cdn.dribbble.com/users/2469324/screenshots/6538803/comp_3.gif" className="w-28"/>
                   <h1 className="text-xl font-semibold text-gray-800">Wrong Network!</h1>
                   <p className="text-sm text-gray-700">
                     Please switch to Polygon Mumbai or Ropsten Testnet.
