@@ -20,6 +20,8 @@ import {
 import { GiStumpRegrowth } from "react-icons/gi"
 import { RiDashboardFill } from "react-icons/ri"
 import Account from '../Account'
+import Link from 'next/link'
+import Image from 'next/image'
 // import { ChevronDownIcon } from '@heroicons/react/solid'
 
 const solutions = [
@@ -90,15 +92,19 @@ export default function AppHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
-            <a href="#" className='inline-flex items-center'>
-              <span className="sr-only">Workflow</span>
-              <img
-                className="h-8 w-auto sm:h-10 mr-2"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                alt=""
-              />
-              <span className='text-xl text-gray-800 font-semibold'>Coinvest</span>
-            </a>
+            <Link href="#" passHref>
+              <p className='inline-flex items-center cursor-pointer'>
+                <span className="sr-only">Workflow</span>
+                <Image
+                height="25px"
+                width="25px"
+                  className="h-8 w-auto sm:h-10 mr-2"
+                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                  alt=""
+                />
+                <span className='text-xl text-gray-800 font-semibold'>Coinvest</span>
+              </p>
+            </Link>
           </div>
           <div className="-mr-2 -my-2 md:hidden">
             <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -108,15 +114,21 @@ export default function AppHeader() {
           </div>
           <Popover.Group as="nav" className="hidden md:flex space-x-8">
             
-            <a href="/app" className="text-base inline-flex space-x-1 items-center  font-medium text-gray-500 hover:text-gray-900">
+            <Link href="/app" passHref>
+            <p className="text-base inline-flex space-x-1 items-center  font-medium text-gray-500 hover:text-gray-900 cursor-pointer">
               <RiDashboardFill/> <span>Dashboard</span>
-            </a>
-            <a href="/app/investments" className="text-base inline-flex space-x-1 items-center font-medium text-gray-500 hover:text-gray-900">
-              <HiChartPie/> <span>Investment</span>
-            </a>
-            <a href="#" className="text-base inline-flex space-x-1 items-center font-medium text-gray-500 hover:text-gray-900">
+            </p>
+            </Link>
+            <Link href="/app/investments" passHref>
+              <p className="text-base inline-flex space-x-1 items-center font-medium text-gray-500 hover:text-gray-900">
+                <HiChartPie/> <span>Investment</span>
+              </p>
+            </Link>
+            <Link href="#" passHref>
+            <p className="text-base inline-flex space-x-1 items-center font-medium text-gray-500 hover:text-gray-900">
               <GiStumpRegrowth/> <span>Staking</span>
-            </a>
+            </p>
+            </Link>
             
           </Popover.Group>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
