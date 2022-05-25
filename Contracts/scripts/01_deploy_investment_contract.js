@@ -6,7 +6,7 @@ async function main() {
     console.log("Account balance:", (await deployer.getBalance()).toString());
   
     const Investment = await ethers.getContractFactory("Investment");
-    const investmentContract = await Investment.deploy();
+    const investmentContract = await Investment.deploy(3600000);
   
     console.log("Investment Contract Polygon address:", investmentContract.address);
   }

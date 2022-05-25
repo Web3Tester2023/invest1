@@ -6,7 +6,7 @@ dataSources:
     name: Investment
     network: mumbai
     source:
-      address: "0xabA7cB212e3E184355D613de52ebf1c5834edFd0"
+      address: "0xe864459d7D4185e74e90045f6FaD4251b74DE5d1"
       abi: Investment
       startBlock: 26381535 
     mapping:

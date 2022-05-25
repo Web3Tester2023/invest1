@@ -3,7 +3,7 @@ import { Combobox, Transition } from '@headlessui/react'
 import { BiCheck } from "react-icons/bi"
 
 import { HiOutlineSelector } from "react-icons/hi";
-import { cryptos } from '../constants/cryptos';
+import { cryptos } from '../Constants/cryptos';
 import Image from 'next/image';
 import { useMoralis } from 'react-moralis';
 

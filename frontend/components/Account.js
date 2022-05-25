@@ -3,7 +3,7 @@ import { IoClose, IoWallet } from "react-icons/io5";
 // import ProfileDropdown from "./ProfileDropdown";
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState, useEffect } from 'react'
-import { connectors } from "../constants/WalletConfig";
+import { connectors } from "../Constants/WalletConfig";
 import Image from "next/image";
 import { useMoralis, } from "react-moralis";
 import { FaCross, FaTimes } from "react-icons/fa";
