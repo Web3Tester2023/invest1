@@ -1,0 +1,53 @@
+type BasketToken @entity {
+  id: ID!
+  basket: InvestmentBasket!
+  address: Bytes!
+  percentage: BigInt!
+  priceFeedAddress: Bytes!
+  amount: BigInt!
+  investedAmount: BigInt!
+}
+
+type BasketSIP @entity {
+  id: ID!
+  basket: InvestmentBasket!
+  amount: BigInt!
+  approvedAmount: BigInt!
+  startDate: BigInt!
+  endDate: BigInt!
+}
+
+type InvestmentBasket @entity {
+  id: ID!
+  basketId: BigInt! # uint256
+  name: String! # string
+  metadata: String!
+  investmentToken: Bytes!
+  created_at: BigInt!
+  updated_at: BigInt!
+  owner: Bytes!
+  investingAccount: Bytes!
+  investmentType: Int!
+  investmentAmount: BigInt!
+  total_investment: BigInt!
+  reinvest: Boolean!
+  tokens: [BasketToken!]!
+}
+
+type InvestmentTransaction @entity {
+  id: ID!
+  basket: InvestmentBasket!
+  amount: BigInt!
+  token: Bytes!
+  type: Int!
+  timestamp: BigInt!
+}
+
+type InvestingAccount @entity {
+  id: ID!
+  username: String!
+  owner: Bytes!
+  accountAddress: Bytes!
+  nftAddress: Bytes!
+  nftId: BigInt!
+}
